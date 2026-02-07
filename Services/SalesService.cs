@@ -13,6 +13,8 @@ namespace IKT_BACKEND.Services
     {
 
         private readonly IUnitOfWork unitOfWork;
+        private readonly IProductRepository productRepository;
+        private readonly ISalesRespository salesRespository;
 
         private const string DATE_TIME_CELL = "datetime";
         private const string PAYMENT_CELL = "cash_type";
@@ -21,9 +23,11 @@ namespace IKT_BACKEND.Services
         private const string CARD_CELL = "card";
         private const string MONTH_CELL = "Monthsort";
 
-        public SalesService(IUnitOfWork unitOfWork)
+        public SalesService(IUnitOfWork unitOfWork, IProductRepository productRepository, ISalesRespository salesRespository)
         {
             this.unitOfWork = unitOfWork;
+            this.productRepository = productRepository;
+            this.salesRespository = salesRespository;    
         }   
 
         public BaseResponse<bool> GetSuccess()
@@ -31,7 +35,7 @@ namespace IKT_BACKEND.Services
             return new OkResponse<bool>(true);
         }
 
-        public BaseResponse<bool> SaveRecords(IFormFile file) 
+        public async Task<BaseResponse<bool>> SaveRecords(IFormFile file) 
         {
             HashSet<string> productNames = new();
             List<ExcelSaleDto> salesDto = new();
@@ -94,6 +98,20 @@ namespace IKT_BACKEND.Services
                     }
                 }
             }
+
+            // Products in database
+            Dictionary<string,long> databaseProducts = await productRepository.FindByRange(productNames);
+
+            //  Find new products to add in database
+            var newProducts = productNames
+                .Where(n => !databaseProducts.ContainsKey(n))
+                .Select(n => new Product { Name = n })
+                .ToList();
+
+            // Save on database new products
+            await productRepository.AddByRange(newProducts);
+            await unitOfWork.SaveChangesAsync();
+
 
             return new OkResponse<bool>(true);
 

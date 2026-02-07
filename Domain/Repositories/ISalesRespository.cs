@@ -4,6 +4,6 @@ namespace IKT_BACKEND.Domain.Repositories
 {
     public interface ISalesRespository
     {
-        Task AddRangeSale(List<Sale> sales);
+        //Task AddRangeSale(List<Sale> sales);
     }
 }

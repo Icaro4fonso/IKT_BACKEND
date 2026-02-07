@@ -5,6 +5,6 @@ namespace IKT_BACKEND.Domain.Services
     public interface ISalesService
     {
         BaseResponse<bool> GetSuccess();
-        BaseResponse<bool> SaveRecords(IFormFile file);
+        Task<BaseResponse<bool>> SaveRecords(IFormFile file);
     }
 }
