@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace IKT_BACKEND.Migrations
 {
-    [DbContext(typeof(SalesDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20260207143237_InitialDatabaseSetup")]
     partial class InitialDatabaseSetup
     {

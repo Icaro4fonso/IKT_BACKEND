@@ -1,4 +1,5 @@
 ﻿using ExcelDataReader;
+using IKT_BACKEND.Domain.Repositories;
 using IKT_BACKEND.Domain.Services;
 using IKT_BACKEND.Dtos;
 using IKT_BACKEND.Persistence.Models;
@@ -11,6 +12,8 @@ namespace IKT_BACKEND.Services
     public class SalesService : ISalesService
     {
 
+        private readonly IUnitOfWork unitOfWork;
+
         private const string DATE_TIME_CELL = "datetime";
         private const string PAYMENT_CELL = "cash_type";
         private const string MONEY_CELL = "money";
@@ -18,6 +21,10 @@ namespace IKT_BACKEND.Services
         private const string CARD_CELL = "card";
         private const string MONTH_CELL = "Monthsort";
 
+        public SalesService(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }   
 
         public BaseResponse<bool> GetSuccess()
         {

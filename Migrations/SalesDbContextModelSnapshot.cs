@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace IKT_BACKEND.Migrations
 {
-    [DbContext(typeof(SalesDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class SalesDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

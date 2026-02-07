@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IKT_BACKEND.Persistence.Context
 {
-    public class SalesDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public SalesDbContext(DbContextOptions<SalesDbContext> options) : base(options) {}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
