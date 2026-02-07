@@ -40,6 +40,9 @@ namespace IKT_BACKEND.Services
             HashSet<string> productNames = new();
             List<ExcelSaleDto> salesDto = new();
 
+            // Switch to brasil 
+            var cultureBrasil = new CultureInfo("pt-BR");
+
             // Validation 
             var errors = new List<string>();
             var validator = new ExcelSaleValidator();
@@ -48,18 +51,28 @@ namespace IKT_BACKEND.Services
             using Stream stream = file.OpenReadStream();
             using var reader = ExcelReaderFactory.CreateReader(stream);
 
-            var dataSet = reader.AsDataSet();
+            var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+            {
+                ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                {
+                    UseHeaderRow = true
+                }
+            });
+              
             var table = dataSet.Tables[0];
 
             for (int i = 1; i < table.Rows.Count; i++)
             {
+
                 // Current row
                 var row = table.Rows[i];
 
                 // Retrieve data
                 DateTime dateTime = DateTime.Parse(row[DATE_TIME_CELL].ToString());
 
-                decimal price = decimal.Parse(row[MONEY_CELL].ToString(), CultureInfo.InvariantCulture);
+                decimal price = decimal.Parse(row[MONEY_CELL].ToString(),
+                                              NumberStyles.Currency | NumberStyles.AllowDecimalPoint,
+                                              cultureBrasil);
 
                 string coffeeName = row[COFFEE_NAME_CELL].ToString();
 
@@ -109,12 +122,29 @@ namespace IKT_BACKEND.Services
                 .ToList();
 
             // Save on database new products
-            await productRepository.AddByRange(newProducts);
-            await unitOfWork.SaveChangesAsync();
+            if (newProducts.Count > 0)
+            {
+                await productRepository.AddByRange(newProducts);
+                await unitOfWork.SaveChangesAsync();
 
+                foreach (var p in newProducts)
+                { 
+                    databaseProducts[p.Name] = p.Id;
+                }
+            }
+
+            var sales = salesDto.Select(dto =>
+                new Sale()
+                {
+                    DateTime = DateTime.SpecifyKind(dto.DateTime, DateTimeKind.Utc),
+                    PaymentType = dto.PaymentType,
+                    Price = dto.Price,
+                    ProductId = databaseProducts[dto.ProductName],
+                }).ToList();
+
+            await salesRespository.BulkInsertAsync(sales);
 
             return new OkResponse<bool>(true);
-
         }
     }
 }

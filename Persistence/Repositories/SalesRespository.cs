@@ -16,7 +16,7 @@ namespace IKT_BACKEND.Persistence.Repositories
 
         public async Task BulkInsertAsync(List<Sale> sales) 
         {
-            await context.BulkInsertAsync(sales, options =>
+            await context.BulkInsertOrUpdateAsync(sales, options =>
             {
                 options.BatchSize = 5000;
                 options.UpdateByProperties =

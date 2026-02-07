@@ -4,8 +4,11 @@ using IKT_BACKEND.Persistence.Context;
 using IKT_BACKEND.Persistence.Repositories;
 using IKT_BACKEND.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 // Configure postgres connection
 builder.Services.AddDbContext<AppDbContext>(options =>

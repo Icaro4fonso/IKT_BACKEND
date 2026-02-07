@@ -20,7 +20,7 @@ namespace IKT_BACKEND.Controllers
         [RequestSizeLimit(10 * 1024 * 1024)] // 10 MB
         public async Task<IActionResult> SaveRecords([FromForm] IFormFile file)
         {
-            var response = SalesService.SaveRecords(file);
+            var response = await SalesService.SaveRecords(file);
 
             return Ok();
         }
