@@ -15,6 +15,16 @@ namespace IKT_BACKEND.Controllers
             SalesService = salesService;
         }
 
+        [HttpPost("upload-records")]
+        [Consumes("multipart/form-data")]
+        [RequestSizeLimit(10 * 1024 * 1024)] // 10 MB
+        public async Task<IActionResult> SaveRecords([FromForm] IFormFile file)
+        {
+            var response = SalesService.SaveRecords(file);
+
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult ApiCheck()
         {
