@@ -14,8 +14,7 @@ namespace IKT_BACKEND.Persistence.Context
 
             modelBuilder.Entity<Sale>(entity =>
             {
-                entity.HasIndex(s => new { s.DateTime, s.ProductId, s.Price })
-                      .IsUnique();
+                entity.HasKey(s => new { s.DateTime, s.ProductId, s.Price });
 
                 entity.HasOne(s => s.Product)
                       .WithMany(p => p.Sales)
