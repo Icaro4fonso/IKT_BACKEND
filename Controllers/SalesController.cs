@@ -25,7 +25,6 @@ namespace IKT_BACKEND.Controllers
             return Ok();
         }
 
-        [HttpGet]
         public IActionResult ApiCheck()
         {
             var sales = SalesService.GetSuccess();

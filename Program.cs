@@ -22,6 +22,9 @@ builder.Services.AddControllers();
 
 // Configure Services
 builder.Services.AddScoped<ISalesService, SalesService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ISalesRespository,  SalesRespository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

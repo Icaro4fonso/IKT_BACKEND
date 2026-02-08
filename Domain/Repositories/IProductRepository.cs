@@ -1,10 +1,12 @@
-﻿using IKT_BACKEND.Persistence.Models;
+﻿using IKT_BACKEND.Dtos;
+using IKT_BACKEND.Persistence.Models;
 
 namespace IKT_BACKEND.Domain.Repositories
 {
     public interface IProductRepository
     {
         Task<Dictionary<string, long>> FindByRange(HashSet<string> productsNames);
-       Task AddByRange(List<Product> products);
+        Task AddByRange(List<Product> products);
+        Task<List<ProductResumeDto>> MostOrdereds();
     }
 }

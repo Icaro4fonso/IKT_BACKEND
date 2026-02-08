@@ -61,7 +61,7 @@ namespace IKT_BACKEND.Services
               
             var table = dataSet.Tables[0];
 
-            for (int i = 1; i < table.Rows.Count; i++)
+            for (int i = 0; i < table.Rows.Count; i++)
             {
 
                 // Current row
