@@ -21,6 +21,8 @@ namespace IKT_BACKEND.Validators
                 .MaximumLength(100).WithMessage("Product name cannot exceed 100 characters.");
 
             RuleFor(x => x.CardNumber).MaximumLength(19).WithMessage("Card number cannot exceed 20 characters.");
+
+            RuleFor(x => x.Month).GreaterThan(0).LessThanOrEqualTo(12).WithMessage("Month must be between 1 and 12.");
         }
     }
 }   

@@ -1,4 +1,5 @@
-﻿using IKT_BACKEND.Utils;
+﻿using IKT_BACKEND.Dtos;
+using IKT_BACKEND.Utils;
 
 namespace IKT_BACKEND.Domain.Services
 {
@@ -6,5 +7,6 @@ namespace IKT_BACKEND.Domain.Services
     {
         BaseResponse<bool> GetSuccess();
         Task<BaseResponse<bool>> SaveRecords(IFormFile file);
+        Task<BaseResponse<List<SaleResumeDto>>> MostProfitMonths();
     }
 }

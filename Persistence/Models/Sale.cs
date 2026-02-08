@@ -7,5 +7,6 @@
         public decimal Price { get; set; }
         public long ProductId { get; set; }
         public Product Product { get; set; }
+        public int Month { get; set; }
     }
 }

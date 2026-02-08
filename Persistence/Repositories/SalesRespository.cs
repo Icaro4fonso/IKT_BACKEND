@@ -1,7 +1,9 @@
 ﻿using EFCore.BulkExtensions;
 using IKT_BACKEND.Domain.Repositories;
+using IKT_BACKEND.Dtos;
 using IKT_BACKEND.Persistence.Context;
 using IKT_BACKEND.Persistence.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IKT_BACKEND.Persistence.Repositories
 {
@@ -26,6 +28,24 @@ namespace IKT_BACKEND.Persistence.Repositories
                     nameof(Sale.Price)
                 ];
             });
+        }
+
+        public async Task<List<SaleResumeDto>> MostProfitMonthsAsync()
+        {
+            return await context.Sales
+                .GroupBy(sales => new
+                {
+                    sales.DateTime.Month
+                })
+                .Select(group => new SaleResumeDto
+                {
+                    Month = group.Key.Month,
+                    TotalProfit = group.Sum(s => s.Price),
+                    TotalSalesCount = group.Count()
+                })
+                .OrderByDescending(sales => sales.TotalProfit)
+                .Take(5)
+                .ToListAsync();
         }
     }
 }

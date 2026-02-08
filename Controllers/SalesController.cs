@@ -8,11 +8,11 @@ namespace IKT_BACKEND.Controllers
     public class SalesController : ControllerBase
     {
 
-        private readonly ISalesService SalesService;
+        private readonly ISalesService salesService;
 
         public SalesController(ISalesService salesService)
         {
-            SalesService = salesService;
+            this.salesService = salesService;
         }
 
         [HttpPost("upload-records")]
@@ -20,14 +20,26 @@ namespace IKT_BACKEND.Controllers
         [RequestSizeLimit(10 * 1024 * 1024)] // 10 MB
         public async Task<IActionResult> SaveRecords([FromForm] IFormFile file)
         {
-            var response = await SalesService.SaveRecords(file);
+            var response = await salesService.SaveRecords(file);
 
             return Ok();
         }
 
+        [HttpGet("most-profit-month")]
+        public async Task<IActionResult> MostProfitMonths()
+        {
+            var response = await salesService.MostProfitMonths();
+            if (response.Success)
+            {
+                return Ok(response.GetValue());
+            }
+            return BadRequest();
+        }
+
+
         public IActionResult ApiCheck()
         {
-            var sales = SalesService.GetSuccess();
+            var sales = salesService.GetSuccess();
 
             if (sales.Success)
             {
@@ -36,7 +48,5 @@ namespace IKT_BACKEND.Controllers
 
             return Ok("Hello World");
         }
-
-
     }
 }

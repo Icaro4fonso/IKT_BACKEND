@@ -11,7 +11,6 @@ namespace IKT_BACKEND.Services
 {
     public class SalesService : ISalesService
     {
-
         private readonly IUnitOfWork unitOfWork;
         private readonly IProductRepository productRepository;
         private readonly ISalesRespository salesRespository;
@@ -139,12 +138,20 @@ namespace IKT_BACKEND.Services
                     DateTime = DateTime.SpecifyKind(dto.DateTime, DateTimeKind.Utc),
                     PaymentType = dto.PaymentType,
                     Price = dto.Price,
+                    Month = dto.Month,
                     ProductId = databaseProducts[dto.ProductName],
                 }).ToList();
 
             await salesRespository.BulkInsertAsync(sales);
 
             return new OkResponse<bool>(true);
+        }
+
+        public async Task<BaseResponse<List<SaleResumeDto>>> MostProfitMonths()
+        {
+            var sales = await salesRespository.MostProfitMonthsAsync();
+
+            return new OkResponse<List<SaleResumeDto>>(sales);
         }
     }
 }
