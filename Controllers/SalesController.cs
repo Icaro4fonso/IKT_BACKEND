@@ -35,18 +35,5 @@ namespace IKT_BACKEND.Controllers
             }
             return BadRequest();
         }
-
-
-        public IActionResult ApiCheck()
-        {
-            var sales = salesService.GetSuccess();
-
-            if (sales.Success)
-            {
-                return Ok(sales.GetValue());
-            }
-
-            return Ok("Hello World");
-        }
     }
 }

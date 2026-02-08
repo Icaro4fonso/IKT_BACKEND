@@ -29,11 +29,6 @@ namespace IKT_BACKEND.Services
             this.salesRespository = salesRespository;    
         }   
 
-        public BaseResponse<bool> GetSuccess()
-        {
-            return new OkResponse<bool>(true);
-        }
-
         public async Task<BaseResponse<bool>> SaveRecords(IFormFile file) 
         {
             HashSet<string> productNames = new();
