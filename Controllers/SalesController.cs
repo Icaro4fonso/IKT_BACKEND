@@ -22,18 +22,29 @@ namespace IKT_BACKEND.Controllers
         {
             var response = await salesService.SaveRecords(file);
 
-            return Ok();
+            if (response.Success)
+            {
+                
+                return Ok(response.GetValue());
+            }
+            else
+            {
+                return BadRequest(response.GetErrorMessage());
+            }
+
         }
 
         [HttpGet("most-profit-month")]
         public async Task<IActionResult> MostProfitMonths()
         {
             var response = await salesService.MostProfitMonths();
+
             if (response.Success)
             {
                 return Ok(response.GetValue());
             }
-            return BadRequest();
+
+            return BadRequest(response.GetErrorMessage());
         }
     }
 }

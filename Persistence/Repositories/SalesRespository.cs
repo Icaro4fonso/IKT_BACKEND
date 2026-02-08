@@ -16,18 +16,30 @@ namespace IKT_BACKEND.Persistence.Repositories
             this.context = context;
         }
 
-        public async Task BulkInsertAsync(List<Sale> sales) 
+        public async Task BulkInsertAsync(List<Sale> sales)
         {
-            await context.BulkInsertOrUpdateAsync(sales, options =>
+            await using var transaction = await context.Database.BeginTransactionAsync();
+
+            try
             {
-                options.BatchSize = 5000;
-                options.UpdateByProperties =
-                [
-                    nameof(Sale.DateTime),
-                    nameof(Sale.ProductId),
-                    nameof(Sale.Price)
-                ];
-            });
+                await context.BulkInsertOrUpdateAsync(sales, options =>
+                {
+                    options.BatchSize = 1000;
+                    options.UpdateByProperties =
+                    [
+                        nameof(Sale.DateTime),
+                nameof(Sale.ProductId),
+                nameof(Sale.Price)
+                    ];
+                });
+
+                await transaction.CommitAsync();
+            }
+            catch // Handle Errors and rollback on database
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<List<SaleResumeDto>> MostProfitMonthsAsync()

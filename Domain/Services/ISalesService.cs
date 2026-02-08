@@ -5,7 +5,7 @@ namespace IKT_BACKEND.Domain.Services
 {
     public interface ISalesService
     {
-        Task<BaseResponse<bool>> SaveRecords(IFormFile file);
+        Task<BaseResponse<List<string>>> SaveRecords(IFormFile file);
         Task<BaseResponse<List<SaleResumeDto>>> MostProfitMonths();
     }
 }
