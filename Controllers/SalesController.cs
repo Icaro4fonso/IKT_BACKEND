@@ -17,7 +17,7 @@ namespace IKT_BACKEND.Controllers
 
         [HttpPost("upload-records")]
         [Consumes("multipart/form-data")]
-        [RequestSizeLimit(10 * 1024 * 1024)] // 10 MB
+        [RequestSizeLimit(20 * 1024 * 1024)] // 20 MB
         public async Task<IActionResult> SaveRecords([FromForm] IFormFile file)
         {
             var response = await salesService.SaveRecords(file);
