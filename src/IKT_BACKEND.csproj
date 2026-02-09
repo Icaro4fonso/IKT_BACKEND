@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="IKT_BACKEND.slnx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EFCore.BulkExtensions" Version="10.0.0" />
     <PackageReference Include="ExcelDataReader" Version="3.8.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.8.0" />
