@@ -161,7 +161,7 @@ namespace IKT_BACKEND.Services
             if (!decimal.TryParse(
                     row[MONEY_CELL]?.ToString(),
                     NumberStyles.Currency | NumberStyles.AllowDecimalPoint,
-                    cultureBrasil,
+                    CultureInfo.InvariantCulture,
                     out var price))
             {
                 return new ErrorResponse<ExcelSaleDto>("Invalid price");

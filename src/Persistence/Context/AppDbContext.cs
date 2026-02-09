@@ -16,8 +16,7 @@ namespace IKT_BACKEND.Persistence.Context
             {
                 entity.HasKey(s => new { s.DateTime, s.ProductId, s.Price });
 
-                entity.Property(s => s.Price)
-                      .HasColumnType("numeric(18,2)");
+                entity.Property(s => s.Price);
 
                 entity.HasOne(s => s.Product)
                       .WithMany(p => p.Sales)
